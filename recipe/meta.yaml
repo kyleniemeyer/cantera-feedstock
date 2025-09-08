@@ -34,6 +34,10 @@ requirements:
     - {{ compiler('cxx') }}
     - scons >=4.1
     - packaging
+    - doxygen
+    - jinja2
+    - typing_extensions  # [py < 311]
+    - ruamel.yaml
   host:
     - python >=3.10
     - numpy
@@ -66,6 +70,10 @@ outputs:
         - {{ compiler('cxx') }}
         - scons >=4.1
         - packaging
+        - doxygen
+        - jinja2
+        - typing_extensions  # [py < 311]
+        - ruamel.yaml
       host:
         - libboost-headers
         - fmt
@@ -104,6 +112,10 @@ outputs:
         - {{ compiler('cxx') }}
         - scons >=4.1
         - packaging
+        - doxygen
+        - jinja2
+        - typing_extensions  # [py < 311]
+        - ruamel.yaml
       host:
         - libboost-headers
         - fmt
@@ -155,6 +167,7 @@ outputs:
         - {{ compiler('cxx') }}
         - scons >=4.1
         - packaging
+        - doxygen
       host:
         - python
         - pip
@@ -168,6 +181,9 @@ outputs:
         - sundials <8
         - pywin32  # [win]
         - cython
+        - jinja2
+        - typing_extensions  # [py < 311]
+        - ruamel.yaml
         # These two are added here so that conda-build doesn't package their files into cantera too
         - {{ pin_subpackage('libcantera-devel', exact=True) }}
         - {{ pin_subpackage('libcantera', exact=True) }}
