@@ -1,23 +1,23 @@
 # When this version is updated, make sure to update the CT_GIT_COMMIT variable in
 # the build/script_env section.
-{% set version = "3.1.0" %}
+{% set version = "3.2.0a3" %}
 
 package:
   name: cantera-recipe
   version: {{ version }}
 
 source:
-  - url: https://github.com/Cantera/cantera/archive/v3.1.0.tar.gz
-    sha256: 4d9004660d83ea5200216cbd465ae77277fde9191fd47d1eb30a68c1ad6ee09e
-  - url: https://github.com/Cantera/cantera-example-data/archive/1a5d27e508a38b1791543e9fded80ffd5c5b8d75.tar.gz
-    sha256: 5fddd7a883a5034c4579801cde81bbba63edfbd8e462db10297b932cfacb7d9b
+  - url: https://github.com/Cantera/cantera/archive/0c561b64ea1cad8b54dd723d52a6d90db004a208.tar.gz
+    sha256: 0d0aecdb1231bc2d3a2446332342d988fa1d7edb60f07928762181cc454457b8
+  - url: https://github.com/Cantera/cantera-example-data/archive/b9e0731611bc6e8d33b021332c7ade094bec1196.tar.gz
+    sha256: 9e65ce5221e36eacd505b1d54082ab08c043091bbbb1032881e10f63769c8280
     folder: data/example_data
 
 build:
-  number: 2
+  number: 0
   include_recipe: True
   script_env:
-    - "CT_GIT_COMMIT=6e0027548cf295bd478b8acfe34816f2db6dd58b"
+    - "CT_GIT_COMMIT=0c561b64ea1cad8b54dd723d52a6d90db004a208"
 
 # The requirements for Python and NumPy are mandatory in this section because that's
 # how conda smithy rendering of this recipe produces one build configuration for each
@@ -35,7 +35,7 @@ requirements:
     - scons >=4.1
     - packaging
   host:
-    - python >=3.8
+    - python >=3.10
     - numpy
     - libboost-devel
     - fmt
