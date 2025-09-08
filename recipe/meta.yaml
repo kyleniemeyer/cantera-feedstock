@@ -1,23 +1,23 @@
 # When this version is updated, make sure to update the CT_GIT_COMMIT variable in
 # the build/script_env section.
-{% set version = "3.1.0b1" %}
+{% set version = "3.1.0" %}
 
 package:
   name: cantera-recipe
   version: {{ version }}
 
 source:
-  - url: https://github.com/Cantera/cantera/archive/70521b741bbb2e950ea10eac5580276bdd76d813.tar.gz
-    sha256: 6efe3781376f75bb96916c8f657c329145969c8787f86bd3d976716be50842f7
+  - url: https://github.com/Cantera/cantera/archive/v3.1.0.tar.gz
+    sha256: 4d9004660d83ea5200216cbd465ae77277fde9191fd47d1eb30a68c1ad6ee09e
   - url: https://github.com/Cantera/cantera-example-data/archive/1a5d27e508a38b1791543e9fded80ffd5c5b8d75.tar.gz
     sha256: 5fddd7a883a5034c4579801cde81bbba63edfbd8e462db10297b932cfacb7d9b
     folder: data/example_data
 
 build:
-  number: 0
+  number: 1
   include_recipe: True
   script_env:
-    - "CT_GIT_COMMIT=70521b741bbb2e950ea10eac5580276bdd76d813"
+    - "CT_GIT_COMMIT=6e0027548cf295bd478b8acfe34816f2db6dd58b"
 
 # The requirements for Python and NumPy are mandatory in this section because that's
 # how conda smithy rendering of this recipe produces one build configuration for each
@@ -41,7 +41,7 @@ requirements:
     - fmt
     - eigen
     - yaml-cpp
-    - sundials ==7.0.0
+    - sundials <8
     - hdf5 >=1.14
     - highfive >=2.7
     - pywin32  # [win]
@@ -71,7 +71,7 @@ outputs:
         - fmt
         - eigen
         - yaml-cpp
-        - sundials ==7.0.0
+        - sundials <8
         - hdf5 >=1.14
         - highfive >=2.7
         - pywin32  # [win]
@@ -109,7 +109,7 @@ outputs:
         - fmt
         - eigen
         - yaml-cpp
-        - sundials ==7.0.0
+        - sundials <8
         - pywin32  # [win]
         - {{ pin_subpackage('libcantera', exact=True) }}
         - libblas
@@ -142,10 +142,6 @@ outputs:
   - name: cantera
     script: build_py.sh  # [not win]
     script: build_py.bat  # [win]
-    build:
-      ignore_run_exports:
-        # only the header part of these libraries are used
-        - libboost-headers
     requirements:
       build:
         - python                                 # [build_platform != target_platform]
@@ -169,7 +165,7 @@ outputs:
         - fmt
         - eigen
         - yaml-cpp
-        - sundials ==7.0.0
+        - sundials <8
         - pywin32  # [win]
         - cython
         # These two are added here so that conda-build doesn't package their files into cantera too
@@ -184,6 +180,9 @@ outputs:
         - ruamel.yaml
         - {{ pin_subpackage('libcantera', exact=True) }}
     build:
+      ignore_run_exports:
+        # only the header part of these libraries are used
+        - libboost-headers
       entry_points:
         - ck2yaml = cantera.ck2yaml:main
         - cti2yaml = cantera.cti2yaml:main
