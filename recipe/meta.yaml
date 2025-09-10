@@ -49,8 +49,11 @@ requirements:
     - hdf5 >=1.14
     - highfive >=2.7
     - pywin32  # [win]
-    - libblas
-    - liblapack
+    - openblas  # [win]
+    - libblas * *openblas  # [win]
+    - libblas  # [not win]
+    - liblapack * *openblas  # [win]
+    - liblapack  # [not win]
     - llvm-openmp  # [osx]
     - libgomp      # [linux]
 
@@ -83,13 +86,17 @@ outputs:
         - hdf5 >=1.14
         - highfive >=2.7
         - pywin32  # [win]
-        - libblas
-        - liblapack
+        - openblas  # [win]
+        - libblas * *openblas  # [win]
+        - libblas  # [not win]
+        - liblapack * *openblas  # [win]
+        - liblapack  # [not win]
         - llvm-openmp  # [osx]
         - libgomp      # [linux]
       run:
         - hdf5 >=1.14
         - fmt
+        - blas * *openblas  # [win]
     test:
       commands:
         - echo "STARTING TESTS"
@@ -124,8 +131,11 @@ outputs:
         - sundials <8
         - pywin32  # [win]
         - {{ pin_subpackage('libcantera', exact=True) }}
-        - libblas
-        - liblapack
+        - openblas  # [win]
+        - libblas * *openblas  # [win]
+        - libblas  # [not win]
+        - liblapack * *openblas  # [win]
+        - liblapack  # [not win]
         - llvm-openmp  # [osx]
         - libgomp      # [linux]
       run:
@@ -187,8 +197,11 @@ outputs:
         # These two are added here so that conda-build doesn't package their files into cantera too
         - {{ pin_subpackage('libcantera-devel', exact=True) }}
         - {{ pin_subpackage('libcantera', exact=True) }}
-        - libblas
-        - liblapack
+        - openblas  # [win]
+        - libblas * *openblas  # [win]
+        - libblas  # [not win]
+        - liblapack * *openblas  # [win]
+        - liblapack  # [not win]
         - llvm-openmp  # [osx]
         - libgomp      # [linux]
       run:

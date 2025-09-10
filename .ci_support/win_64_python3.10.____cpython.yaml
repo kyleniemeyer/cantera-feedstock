@@ -10,16 +10,14 @@ cxx_compiler:
 - vs2022
 fmt:
 - '11.2'
-libblas:
-- 3.9.* *netlib
 libboost_devel:
 - '1.88'
 libboost_headers:
 - '1.88'
-liblapack:
-- 3.9.* *netlib
 numpy:
 - '2'
+openblas:
+- 0.3.*
 pin_run_as_build:
   python:
     min_pin: x.x
