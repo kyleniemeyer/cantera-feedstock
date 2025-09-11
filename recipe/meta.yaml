@@ -7,8 +7,8 @@ package:
   version: {{ version }}
 
 source:
-  - url: https://github.com/Cantera/cantera/archive/33e5afc29b6cc4533521e9af3c7e9903ca7e801f.tar.gz
-    sha256: 9c065750c2d1f8d88b31889f572e7f3fe4c4f0633363935244f9813a4a7e87ac
+  - url: https://github.com/Cantera/cantera/archive/a68b2771e587f4d4758bfe960c2388fb5f97c376.tar.gz
+    sha256: f96d35cb5a73cc64c9d238bc04518b85b576b7b4ac90e38b2da0109c80415c20
   - url: https://github.com/Cantera/cantera-example-data/archive/b9e0731611bc6e8d33b021332c7ade094bec1196.tar.gz
     sha256: 9e65ce5221e36eacd505b1d54082ab08c043091bbbb1032881e10f63769c8280
     folder: data/example_data
@@ -17,7 +17,7 @@ build:
   number: 1
   include_recipe: True
   script_env:
-    - "CT_GIT_COMMIT=33e5afc29b6cc4533521e9af3c7e9903ca7e801f"
+    - "CT_GIT_COMMIT=a68b2771e587f4d4758bfe960c2388fb5f97c376"
 
 # The requirements for Python and NumPy are mandatory in this section because that's
 # how conda smithy rendering of this recipe produces one build configuration for each
