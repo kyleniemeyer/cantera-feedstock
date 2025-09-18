@@ -1,23 +1,23 @@
 # When this version is updated, make sure to update the CT_GIT_COMMIT variable in
 # the build/script_env section.
-{% set version = "3.1.0b1" %}
+{% set version = "3.2.0a3" %}
 
 package:
   name: cantera-recipe
   version: {{ version }}
 
 source:
-  - url: https://github.com/Cantera/cantera/archive/70521b741bbb2e950ea10eac5580276bdd76d813.tar.gz
-    sha256: 6efe3781376f75bb96916c8f657c329145969c8787f86bd3d976716be50842f7
-  - url: https://github.com/Cantera/cantera-example-data/archive/1a5d27e508a38b1791543e9fded80ffd5c5b8d75.tar.gz
-    sha256: 5fddd7a883a5034c4579801cde81bbba63edfbd8e462db10297b932cfacb7d9b
+  - url: https://github.com/Cantera/cantera/archive/72fbf271f023145e93993cc0ab6fd0a79448ab66.tar.gz
+    sha256: 5d0973baf9b7cd7e48645a3debb7ae8da60778bea6c275b3aaf5595f637ed10b
+  - url: https://github.com/Cantera/cantera-example-data/archive/b9e0731611bc6e8d33b021332c7ade094bec1196.tar.gz
+    sha256: 9e65ce5221e36eacd505b1d54082ab08c043091bbbb1032881e10f63769c8280
     folder: data/example_data
 
 build:
   number: 0
   include_recipe: True
   script_env:
-    - "CT_GIT_COMMIT=70521b741bbb2e950ea10eac5580276bdd76d813"
+    - "CT_GIT_COMMIT=72fbf271f023145e93993cc0ab6fd0a79448ab66"
 
 # The requirements for Python and NumPy are mandatory in this section because that's
 # how conda smithy rendering of this recipe produces one build configuration for each
@@ -34,19 +34,26 @@ requirements:
     - {{ compiler('cxx') }}
     - scons >=4.1
     - packaging
+    - doxygen
+    - jinja2
+    - typing_extensions  # [py < 311]
+    - ruamel.yaml
   host:
-    - python >=3.8
+    - python >=3.10
     - numpy
     - libboost-devel
     - fmt
     - eigen
     - yaml-cpp
-    - sundials ==7.0.0
+    - sundials <8
     - hdf5 >=1.14
     - highfive >=2.7
     - pywin32  # [win]
-    - libblas
-    - liblapack
+    - openblas  # [win]
+    - libblas * *openblas  # [win]
+    - libblas  # [not win]
+    - liblapack * *openblas  # [win]
+    - liblapack  # [not win]
     - llvm-openmp  # [osx]
     - libgomp      # [linux]
 
@@ -66,22 +73,30 @@ outputs:
         - {{ compiler('cxx') }}
         - scons >=4.1
         - packaging
+        - doxygen
+        - jinja2
+        - typing_extensions  # [py < 311]
+        - ruamel.yaml
       host:
         - libboost-headers
         - fmt
         - eigen
         - yaml-cpp
-        - sundials ==7.0.0
+        - sundials <8
         - hdf5 >=1.14
         - highfive >=2.7
         - pywin32  # [win]
-        - libblas
-        - liblapack
+        - openblas  # [win]
+        - libblas * *openblas  # [win]
+        - libblas  # [not win]
+        - liblapack * *openblas  # [win]
+        - liblapack  # [not win]
         - llvm-openmp  # [osx]
         - libgomp      # [linux]
       run:
         - hdf5 >=1.14
         - fmt
+        - blas * *openblas  # [win]
     test:
       commands:
         - echo "STARTING TESTS"
@@ -104,16 +119,23 @@ outputs:
         - {{ compiler('cxx') }}
         - scons >=4.1
         - packaging
+        - doxygen
+        - jinja2
+        - typing_extensions  # [py < 311]
+        - ruamel.yaml
       host:
         - libboost-headers
         - fmt
         - eigen
         - yaml-cpp
-        - sundials ==7.0.0
+        - sundials <8
         - pywin32  # [win]
         - {{ pin_subpackage('libcantera', exact=True) }}
-        - libblas
-        - liblapack
+        - openblas  # [win]
+        - libblas * *openblas  # [win]
+        - libblas  # [not win]
+        - liblapack * *openblas  # [win]
+        - liblapack  # [not win]
         - llvm-openmp  # [osx]
         - libgomp      # [linux]
       run:
@@ -142,10 +164,6 @@ outputs:
   - name: cantera
     script: build_py.sh  # [not win]
     script: build_py.bat  # [win]
-    build:
-      ignore_run_exports:
-        # only the header part of these libraries are used
-        - libboost-headers
     requirements:
       build:
         - python                                 # [build_platform != target_platform]
@@ -159,6 +177,7 @@ outputs:
         - {{ compiler('cxx') }}
         - scons >=4.1
         - packaging
+        - doxygen
       host:
         - python
         - pip
@@ -169,14 +188,20 @@ outputs:
         - fmt
         - eigen
         - yaml-cpp
-        - sundials ==7.0.0
+        - sundials <8
         - pywin32  # [win]
         - cython
+        - jinja2
+        - typing_extensions  # [py < 311]
+        - ruamel.yaml
         # These two are added here so that conda-build doesn't package their files into cantera too
         - {{ pin_subpackage('libcantera-devel', exact=True) }}
         - {{ pin_subpackage('libcantera', exact=True) }}
-        - libblas
-        - liblapack
+        - openblas  # [win]
+        - libblas * *openblas  # [win]
+        - libblas  # [not win]
+        - liblapack * *openblas  # [win]
+        - liblapack  # [not win]
         - llvm-openmp  # [osx]
         - libgomp      # [linux]
       run:
@@ -184,6 +209,9 @@ outputs:
         - ruamel.yaml
         - {{ pin_subpackage('libcantera', exact=True) }}
     build:
+      ignore_run_exports:
+        # only the header part of these libraries are used
+        - libboost-headers
       entry_points:
         - ck2yaml = cantera.ck2yaml:main
         - cti2yaml = cantera.cti2yaml:main

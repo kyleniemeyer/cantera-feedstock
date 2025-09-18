@@ -16,14 +16,7 @@ int kinetics1(int np, void* p)
     int nsp = gas->nSpecies();
 
     // create a reactor
-    IdealGasConstPressureReactor r;
-
-    // 'insert' the gas into the reactor and environment.  Note
-    // that it is ok to insert the same gas object into multiple
-    // reactors or reservoirs. All this means is that this object
-    // will be used to evaluate thermodynamic or kinetic
-    // quantities needed.
-    r.insert(sol);
+    auto r = make_shared<IdealGasConstPressureReactor>(sol);
 
     double dt = 1.e-5; // interval at which output is written
     int nsteps = 100; // number of intervals
@@ -43,8 +36,8 @@ int kinetics1(int np, void* p)
 
     // create a container object to run the simulation
     // and add the reactor to it
-    ReactorNet sim;
-    sim.addReactor(r);
+    vector<shared_ptr<ReactorBase>> reactors{r};
+    ReactorNet sim(reactors);
 
     // main loop
     clock_t t0 = clock(); // save start time
@@ -64,7 +57,7 @@ int kinetics1(int np, void* p)
 
     // print final temperature and timing data
     double tmm = 1.0*(t1 - t0)/CLOCKS_PER_SEC;
-    cout << " Tfinal = " << r.temperature() << endl;
+    cout << " Tfinal = " << r->temperature() << endl;
     cout << " time = " << tmm << endl;
     cout << " number of residual function evaluations = "
          << sim.integrator().nEvals() << endl;
