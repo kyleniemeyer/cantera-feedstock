@@ -11,7 +11,7 @@ Summary: Chemical kinetics, thermodynamics, and transport tool suite
 
 Development: https://github.com/cantera/cantera
 
-Documentation: https://cantera.org/documentation
+Documentation: https://cantera.org/stable/python/index.html
 
 Cantera is an open-source suite of tools for problems involving chemical kinetics, thermodynamics, and transport processes
 
