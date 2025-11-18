@@ -25,9 +25,9 @@ kinetics1.exe
 if %ERRORLEVEL% neq 0 exit 1
 echo "SUCCESS!"
 
-rem Test openmp_ignition example with CMake
-echo ***** Testing openmp_ignition example with CMake *****
-cd /d "%CONDA_PREFIX%\share\cantera\samples\cxx\openmp_ignition"
+rem Test combustor example with CMake
+echo ***** Testing combustor example with CMake *****
+cd /d "%CONDA_PREFIX%\share\cantera\samples\cxx\combustor"
 echo ===
 type CMakeLists.txt
 echo ===
@@ -35,7 +35,18 @@ mkdir build
 cd build
 cmake ..
 cmake --build . --config Release
-Release\openmp_ignition.exe
+Release\combustor.exe
+if %ERRORLEVEL% neq 0 exit 1
+echo "SUCCESS!"
+
+rem Test combustor example with SCons
+echo ***** Testing combustor example with SCons *****
+cd /d "%CONDA_PREFIX%\share\cantera\samples\cxx\combustor"
+echo ===
+type SConstruct
+echo ===
+scons
+combustor.exe
 if %ERRORLEVEL% neq 0 exit 1
 echo "SUCCESS!"
 
@@ -47,6 +58,20 @@ type SConstruct
 echo ===
 scons
 openmp_ignition.exe
+if %ERRORLEVEL% neq 0 exit 1
+echo "SUCCESS!"
+
+rem Test openmp_ignition example with CMake
+echo ***** Testing openmp_ignition example with CMake *****
+cd /d "%CONDA_PREFIX%\share\cantera\samples\cxx\openmp_ignition"
+echo ===
+type CMakeLists.txt
+echo ===
+mkdir build
+cd build
+cmake ..
+cmake --build . --config Release
+Release\openmp_ignition.exe
 if %ERRORLEVEL% neq 0 exit 1
 echo "SUCCESS!"
 

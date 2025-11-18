@@ -9,6 +9,7 @@ cp "${RECIPE_DIR}/cantera_base.conf" cantera.conf
 echo "prefix = '${PREFIX}'" >> cantera.conf
 echo "extra_inc_dirs = '${PREFIX}/include'" >> cantera.conf
 echo "extra_lib_dirs = '${PREFIX}/lib'" >> cantera.conf
+echo "blas_lapack_libs = 'lapack,blas'" >> cantera.conf
 
 if [[ "${OSX_ARCH}" == "" ]]; then
     echo "CC = '${CC}'" >> cantera.conf
