@@ -223,6 +223,7 @@ outputs:
       requires:
         - pytest
         - pip
+        - pip
         - pint
         - {{ pin_subpackage('libcantera-devel', exact=True) }}
         - cmake
@@ -239,6 +240,7 @@ outputs:
       files:
         - test-lib
       commands:
+        - pip check
         - pip check
         - cat ${CONDA_PREFIX}/conda-meta/cantera-*.json  # [not win]
         - type %CONDA_PREFIX%\conda-meta\cantera-*.json  # [win]
