@@ -239,6 +239,7 @@ outputs:
       files:
         - test-lib
       commands:
+        - pip check
         - cat ${CONDA_PREFIX}/conda-meta/cantera-*.json  # [not win]
         - type %CONDA_PREFIX%\conda-meta\cantera-*.json  # [win]
         - uname -a  # [not win]
