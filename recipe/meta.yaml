@@ -14,7 +14,7 @@ source:
     folder: data/example_data
 
 build:
-  number: 0
+  number: 1
   include_recipe: True
   script_env:
     - "CT_GIT_COMMIT=4a8358eb80cfeb50474386b5f9ec0b3a83519889"
@@ -206,6 +206,7 @@ outputs:
         - libgomp      # [linux]
       run:
         - python
+        - typing_extensions >=4.13.0
         - ruamel.yaml
         - {{ pin_subpackage('libcantera', exact=True) }}
     build:
