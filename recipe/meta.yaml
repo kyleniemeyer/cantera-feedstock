@@ -222,6 +222,7 @@ outputs:
     test:
       requires:
         - pytest
+        - pip
         - pint
         - {{ pin_subpackage('libcantera-devel', exact=True) }}
         - cmake
