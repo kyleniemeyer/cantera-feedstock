@@ -40,7 +40,8 @@ requirements:
     - ruamel.yaml
   host:
     - python >=3.10
-    - numpy
+    - numpy <2.4  # [py==314]
+    - numpy       # [py!=314]
     - libboost-devel
     - fmt
     - eigen
