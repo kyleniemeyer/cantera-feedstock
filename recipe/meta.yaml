@@ -151,7 +151,8 @@ outputs:
         - pkgconfig
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
-        - numpy
+        - numpy <2.4  # [py==314]
+        - numpy       # [py!=314]
         - python
       files:
         - test-lib
@@ -171,7 +172,8 @@ outputs:
         - cross-python_{{ target_platform }}     # [build_platform != target_platform]
         # These are needed to support cross-compiling. See
         # https://conda-forge.org/docs/maintainer/knowledge_base/#details-about-cross-compiled-python-packages
-        - numpy                                  # [build_platform != target_platform]
+        - numpy <2.4                             # [build_platform != target_platform and py==314]
+        - numpy                                  # [build_platform != target_platform and py!=314]
         - cython                                 # [build_platform != target_platform]
         - {{ compiler('c') }}
         - {{ stdlib("c") }}
@@ -185,7 +187,8 @@ outputs:
         - setuptools
         - packaging
         - libboost-headers
-        - numpy
+        - numpy <2.4  # [py==314]
+        - numpy       # [py!=314]
         - fmt
         - eigen
         - yaml-cpp
@@ -207,6 +210,9 @@ outputs:
         - libgomp      # [linux]
       run:
         - python
+        # numpy is otherwise pulled in only via its run-export, which allows any
+        # 2.x; cap it on 3.14 where numpy 2.4 breaks the test suite (temporary).
+        - numpy <2.4  # [py==314]
         - typing_extensions >=4.13.0
         - ruamel.yaml
         - {{ pin_subpackage('libcantera', exact=True) }}
